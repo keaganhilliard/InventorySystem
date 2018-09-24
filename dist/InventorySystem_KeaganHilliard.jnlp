@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="InventorySystem_KeaganHilliard.jnlp">
+  <information>
+    <title>InventorySystem_KeaganHilliard</title>
+    <vendor>keagan</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="InventorySystem_KeaganHilliard.jar" size="3298" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="InventorySystem_KeaganHilliard" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="inventorysystem_keaganhilliard.InventorySystem_KeaganHilliard"  name="InventorySystem_KeaganHilliard" />
+  <update check="always"/>
+</jnlp>
