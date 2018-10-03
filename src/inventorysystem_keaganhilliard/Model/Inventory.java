@@ -5,13 +5,29 @@
  */
 package inventorysystem_keaganhilliard.Model;
 
-import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
  * @author keagan
  */
 public class Inventory {
-    private ArrayList<Product> products;
-    private ArrayList<Part> allParts;
+    private ObservableList<Product> products;
+    private ObservableList<Part> allParts;
+    
+    public Inventory() {
+        products = FXCollections.observableArrayList();
+        allParts = FXCollections.observableArrayList();
+        for (int i = 0; i < 3; i++) allParts.add(new InHousePart());
+        for (int i = 0; i < 3; i++) allParts.add(new OutsourcedPart());
+    }
+    
+    public ObservableList<Product> getProducts() {
+        return products;
+    }
+    
+    public ObservableList<Part> getAllParts() {
+        return allParts;
+    }
 }

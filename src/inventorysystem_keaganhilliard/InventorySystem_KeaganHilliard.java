@@ -5,10 +5,14 @@
  */
 package inventorysystem_keaganhilliard;
 
+import inventorysystem_keaganhilliard.Model.Inventory;
+import inventorysystem_keaganhilliard.View_Controller.MainScreenController;
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
@@ -17,11 +21,20 @@ import javafx.stage.Stage;
  */
 public class InventorySystem_KeaganHilliard extends Application {
     
+    public Inventory inv;
+    
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("View_Controller/MainScreen.fxml"));
+        inv = new Inventory();
+        //Parent root = FXMLLoader.load(getClass().getResource("View_Controller/MainScreen.fxml"));
+        FXMLLoader loader = new FXMLLoader(
+            getClass().getResource("View_Controller/MainScreen.fxml")
+        );
+        AnchorPane personOverview = (AnchorPane) loader.load();
+        MainScreenController controller = loader.getController();
+        controller.setInventoryApp(this);
         
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(personOverview);
         
         stage.setScene(scene);
         stage.show();

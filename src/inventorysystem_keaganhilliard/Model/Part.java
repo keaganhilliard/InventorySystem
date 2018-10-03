@@ -25,9 +25,9 @@ public abstract class Part {
     private final IntegerProperty max;
     
     public Part() {
-        this.partID = new SimpleIntegerProperty();
-        this.name = new SimpleStringProperty();
-        this.price = new SimpleDoubleProperty();
+        this.partID = new SimpleIntegerProperty(1);
+        this.name = new SimpleStringProperty("The Name");
+        this.price = new SimpleDoubleProperty(5.90);
         this.inStock = new SimpleIntegerProperty();
         this.min = new SimpleIntegerProperty();
         this.max = new SimpleIntegerProperty();
@@ -79,6 +79,10 @@ public abstract class Part {
     
     public int getMax() {
         return this.max.get();
+    }
+    
+    public StringProperty nameProperty() {
+        return this.name;
     }
     
 }

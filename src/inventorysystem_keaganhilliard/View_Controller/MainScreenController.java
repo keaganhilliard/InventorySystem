@@ -26,16 +26,35 @@ public class MainScreenController implements Initializable {
     private InventorySystem_KeaganHilliard app;
     
     @FXML
-    private TableView<Part> partsTable;
+    private final TableView<Part> partsTable;
     
     @FXML
-    private TableView<Product> productsTable;
+    private final TableColumn<Part, String> partNameColumn;
+    
+    @FXML
+    private final TableView<Product> productsTable;
     /**
      * Initializes the controller class.
      */
+    
+    public MainScreenController() {
+        this.partsTable = new TableView<>();
+        this.partNameColumn = new TableColumn<>();
+        this.productsTable = new TableView<>();
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+        
+    }
+
+    @FXML
+    private void initialize() {
+        partNameColumn.setCellValueFactory(part -> part.getValue().nameProperty());
+    }
     
+    public void setInventoryApp(InventorySystem_KeaganHilliard app) {
+        this.app = app;
+        partsTable.setItems(app.inv.getAllParts());
+    }
 }
