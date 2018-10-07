@@ -7,6 +7,7 @@ package inventorysystem_keaganhilliard;
 
 import inventorysystem_keaganhilliard.Model.InHousePart;
 import inventorysystem_keaganhilliard.Model.Inventory;
+import inventorysystem_keaganhilliard.Model.Part;
 import inventorysystem_keaganhilliard.View_Controller.AddOrEditPartScreenController;
 import inventorysystem_keaganhilliard.View_Controller.MainScreenController;
 import javafx.application.Application;
@@ -59,6 +60,12 @@ public class InventorySystem_KeaganHilliard extends Application {
     }
     
     public void cancelAddOrEdit() throws Exception {
+        stage.setScene(scene);
+    }
+    
+    public void saveAddOrEdit(Part part) throws Exception {
+        System.out.println(part.getPrice());
+        inv.getAllParts().add(part);
         stage.setScene(scene);
     }
 

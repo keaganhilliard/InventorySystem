@@ -26,6 +26,7 @@ public class AddOrEditPartScreenController implements Initializable {
 
     @FXML
     private ToggleGroup partType;
+    private String currentPartType;
     
     @FXML
     private TextField name;
@@ -65,10 +66,12 @@ public class AddOrEditPartScreenController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        name.setText("");
         // TODO
         partType.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> ov, Toggle t, Toggle t1) -> {
             RadioButton chk = (RadioButton)t1.getToggleGroup().getSelectedToggle(); // Cast object to radio button
             System.out.println("Selected Radio Button - "+chk.getText());
+            if (chk.getText() == "Outsourced") return;
         });
     }
 
@@ -78,6 +81,24 @@ public class AddOrEditPartScreenController implements Initializable {
             app.cancelAddOrEdit();
         }
         catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    @FXML
+    public void handleSave() {
+        try {
+            part.setName(name.getText());
+            part.setInStock(Integer.valueOf(inv.getText()));
+            part.setMax(Integer.valueOf(max.getText()));
+            part.setMin(Integer.valueOf(min.getText()));
+            part.setPrice(Double.valueOf(price.getText()));
+            part.setPartID(app.inv.getAllParts().size());
+            
+            app.saveAddOrEdit(part);
+        }
+        catch (Exception e) {
+            System.out.println(e.getStackTrace().toString());
             System.out.println(e.getMessage());
         }
     }

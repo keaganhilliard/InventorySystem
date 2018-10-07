@@ -15,6 +15,8 @@ import inventorysystem_keaganhilliard.InventorySystem_KeaganHilliard;
 import inventorysystem_keaganhilliard.Model.Inventory;
 import inventorysystem_keaganhilliard.Model.Part;
 import inventorysystem_keaganhilliard.Model.Product;
+import java.text.NumberFormat;
+import javafx.scene.control.TableCell;
 
 /**
  * FXML Controller class
@@ -36,10 +38,10 @@ public class MainScreenController implements Initializable {
     private TableColumn<Part, Integer> partIDColumn;
     
     @FXML
-    private TableColumn<Part, String> partInvColumn;
+    private TableColumn<Part, Integer> partInvColumn;
     
     @FXML
-    private TableColumn<Part, String> partPriceColumn;
+    private TableColumn<Part, Double> partPriceColumn;
     
     @FXML
     private TableView<Product> productsTable;
@@ -52,6 +54,21 @@ public class MainScreenController implements Initializable {
         System.out.println(url);
         partNameColumn.setCellValueFactory(part -> part.getValue().nameProperty());
         partIDColumn.setCellValueFactory(part -> part.getValue().partIDProperty().asObject());
+        partInvColumn.setCellValueFactory(part -> part.getValue().inStockProperty().asObject());
+        partPriceColumn.setCellValueFactory(part -> part.getValue().priceProperty().asObject());
+        NumberFormat currencyF = NumberFormat.getCurrencyInstance();
+        partPriceColumn.setCellFactory(tableCell -> new TableCell<Part, Double>() {
+            @Override
+            protected void updateItem(Double price, boolean empty) {
+                super.updateItem(price, empty);
+                if (empty) {
+                    setText(null);
+                } 
+                else {
+                    setText(currencyF.format(price));
+                }
+            }
+        });
 //        partsTable.setItems(inv.getAllParts());
     }
     

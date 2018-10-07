@@ -92,6 +92,14 @@ public abstract class Part {
     public IntegerProperty partIDProperty() {
         return this.partID;
     }
+    
+    public IntegerProperty inStockProperty() {
+        return this.inStock;
+    }
+    
+    public DoubleProperty priceProperty() {
+        return this.price;
+    }
 
     private Part(String the_Name) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
