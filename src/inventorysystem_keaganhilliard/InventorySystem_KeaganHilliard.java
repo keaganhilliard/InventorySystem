@@ -5,12 +5,12 @@
  */
 package inventorysystem_keaganhilliard;
 
+import inventorysystem_keaganhilliard.Model.InHousePart;
 import inventorysystem_keaganhilliard.Model.Inventory;
+import inventorysystem_keaganhilliard.View_Controller.AddOrEditPartScreenController;
 import inventorysystem_keaganhilliard.View_Controller.MainScreenController;
-import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -22,6 +22,8 @@ import javafx.stage.Stage;
 public class InventorySystem_KeaganHilliard extends Application {
     
     public Inventory inv;
+    private Scene scene;
+    private Stage stage;
     
     @Override
     public void start(Stage stage) throws Exception {
@@ -30,14 +32,34 @@ public class InventorySystem_KeaganHilliard extends Application {
         FXMLLoader loader = new FXMLLoader(
             getClass().getResource("View_Controller/MainScreen.fxml")
         );
-        AnchorPane personOverview = (AnchorPane) loader.load();
+        
+        AnchorPane mainScreen = (AnchorPane) loader.load();
         MainScreenController controller = loader.getController();
         controller.setInventoryApp(this);
         
-        Scene scene = new Scene(personOverview);
+        scene = new Scene(mainScreen);
         
+        this.stage = stage;
+        this.stage.setScene(scene);
+        this.stage.show();
+    }
+    
+    public void showAddOrEditPart() throws Exception {
+        FXMLLoader loader = new FXMLLoader(
+            getClass().getResource("View_Controller/AddOrEditPartScreen.fxml")
+        );
+        
+        AnchorPane addOrEdit = (AnchorPane) loader.load();
+        AddOrEditPartScreenController controller = loader.getController();
+        controller.setApp(this);
+        controller.setPart(new InHousePart());
+        
+        Scene addOrEditScene = new Scene(addOrEdit);
+        stage.setScene(addOrEditScene);
+    }
+    
+    public void cancelAddOrEdit() throws Exception {
         stage.setScene(scene);
-        stage.show();
     }
 
     /**

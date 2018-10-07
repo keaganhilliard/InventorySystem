@@ -19,7 +19,7 @@ public class Inventory {
     public Inventory() {
         products = FXCollections.observableArrayList();
         allParts = FXCollections.observableArrayList();
-        for (int i = 0; i < 3; i++) allParts.add(new InHousePart());
+        for (int i = 0; i < 3; i++) allParts.add(new InHousePart("Name " + i, i));
         for (int i = 0; i < 3; i++) allParts.add(new OutsourcedPart());
     }
     

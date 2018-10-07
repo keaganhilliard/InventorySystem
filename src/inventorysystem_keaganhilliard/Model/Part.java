@@ -25,8 +25,12 @@ public abstract class Part {
     private final IntegerProperty max;
     
     public Part() {
-        this.partID = new SimpleIntegerProperty(1);
-        this.name = new SimpleStringProperty("The Name");
+        this("The Name", 1);
+    }
+    
+    public Part(String name, Integer ID) {
+        this.partID = new SimpleIntegerProperty(ID);
+        this.name = new SimpleStringProperty(name);
         this.price = new SimpleDoubleProperty(5.90);
         this.inStock = new SimpleIntegerProperty();
         this.min = new SimpleIntegerProperty();
@@ -83,6 +87,14 @@ public abstract class Part {
     
     public StringProperty nameProperty() {
         return this.name;
+    }
+    
+    public IntegerProperty partIDProperty() {
+        return this.partID;
+    }
+
+    private Part(String the_Name) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

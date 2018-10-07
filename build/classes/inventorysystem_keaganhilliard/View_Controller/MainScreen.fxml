@@ -9,15 +9,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="498.0" prefWidth="973.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="inventorysystem_keaganhilliard.View_Controller.MainScreenController">
+<AnchorPane id="AnchorPane" prefHeight="498.0" prefWidth="973.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventorysystem_keaganhilliard.View_Controller.MainScreenController">
    <children>
       <TableView id="partsTable" fx:id="partsTable" layoutX="14.0" layoutY="191.0" prefHeight="146.0" prefWidth="464.0">
          <columns>
-            <TableColumn prefWidth="75.0" text="Part ID" />
+            <TableColumn fx:id="partIDColumn" prefWidth="75.0" text="Part ID" />
             <TableColumn id="partNameColumn" fx:id="partNameColumn" prefWidth="88.0" text="Part Name" />
-            <TableColumn prefWidth="145.0" text="Inventory Level" />
-            <TableColumn prefWidth="154.0" text="Price/Cost per Unit" />
+            <TableColumn fx:id="partInvColumn" prefWidth="145.0" text="Inventory Level" />
+            <TableColumn fx:id="partPriceColumn" prefWidth="154.0" text="Price/Cost per Unit" />
          </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -43,7 +42,7 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <TableView id="productsTable" layoutX="498.0" layoutY="191.0" prefHeight="146.0" prefWidth="464.0">
+      <TableView id="productsTable" fx:id="productsTable" layoutX="498.0" layoutY="191.0" prefHeight="146.0" prefWidth="464.0">
          <columns>
             <TableColumn prefWidth="88.0" text="Product ID" />
             <TableColumn prefWidth="122.0" text="Product Name" />
@@ -56,7 +55,7 @@
       </TableView>
       <ButtonBar layoutX="177.0" layoutY="344.0" prefHeight="40.0" prefWidth="200.0">
         <buttons>
-            <Button mnemonicParsing="false" text="Add" />
+            <Button mnemonicParsing="false" onAction="#handleAddPart" text="Add" />
             <Button mnemonicParsing="false" text="Modify" />
             <Button mnemonicParsing="false" text="Delete" />
         </buttons>

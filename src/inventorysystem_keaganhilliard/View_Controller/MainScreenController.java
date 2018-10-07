@@ -9,10 +9,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import inventorysystem_keaganhilliard.InventorySystem_KeaganHilliard;
+import inventorysystem_keaganhilliard.Model.Inventory;
 import inventorysystem_keaganhilliard.Model.Part;
 import inventorysystem_keaganhilliard.Model.Product;
 
@@ -24,37 +24,49 @@ import inventorysystem_keaganhilliard.Model.Product;
 public class MainScreenController implements Initializable {
     
     private InventorySystem_KeaganHilliard app;
+    private Inventory inv = new Inventory();
     
     @FXML
-    private final TableView<Part> partsTable;
+    private TableView<Part> partsTable;
     
     @FXML
-    private final TableColumn<Part, String> partNameColumn;
+    private TableColumn<Part, String> partNameColumn;
     
     @FXML
-    private final TableView<Product> productsTable;
+    private TableColumn<Part, Integer> partIDColumn;
+    
+    @FXML
+    private TableColumn<Part, String> partInvColumn;
+    
+    @FXML
+    private TableColumn<Part, String> partPriceColumn;
+    
+    @FXML
+    private TableView<Product> productsTable;
     /**
      * Initializes the controller class.
      */
     
-    public MainScreenController() {
-        this.partsTable = new TableView<>();
-        this.partNameColumn = new TableColumn<>();
-        this.productsTable = new TableView<>();
-    }
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-    }
-
-    @FXML
-    private void initialize() {
+        System.out.println(url);
         partNameColumn.setCellValueFactory(part -> part.getValue().nameProperty());
+        partIDColumn.setCellValueFactory(part -> part.getValue().partIDProperty().asObject());
+//        partsTable.setItems(inv.getAllParts());
     }
     
     public void setInventoryApp(InventorySystem_KeaganHilliard app) {
         this.app = app;
-        partsTable.setItems(app.inv.getAllParts());
+        this.partsTable.setItems(this.app.inv.getAllParts());
+    }
+    
+    @FXML
+    public void handleAddPart() {
+        try {
+            app.showAddOrEditPart();
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

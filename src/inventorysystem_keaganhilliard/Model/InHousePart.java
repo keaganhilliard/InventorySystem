@@ -20,6 +20,11 @@ public class InHousePart extends Part {
         this.machineID = new SimpleIntegerProperty();
     }
     
+    public InHousePart(String name, Integer ID) {
+        super(name, ID);
+        this.machineID = new SimpleIntegerProperty();
+    }
+    
     public void setMachineID(int machineID) {
         this.machineID.set(machineID);
     }
