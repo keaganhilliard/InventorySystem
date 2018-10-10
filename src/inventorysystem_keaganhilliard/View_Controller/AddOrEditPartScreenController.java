@@ -6,12 +6,15 @@
 package inventorysystem_keaganhilliard.View_Controller;
 
 import inventorysystem_keaganhilliard.InventorySystem_KeaganHilliard;
+import inventorysystem_keaganhilliard.Model.InHousePart;
+import inventorysystem_keaganhilliard.Model.OutsourcedPart;
 import inventorysystem_keaganhilliard.Model.Part;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
@@ -46,8 +49,26 @@ public class AddOrEditPartScreenController implements Initializable {
     @FXML
     private TextField machineID;
     
+    @FXML
+    private TextField partID;
+    
+    @FXML
+    private Label machineLabel;
+    
+    @FXML
+    private Label mainLabel;
+    
+    @FXML
+    private RadioButton inHouseButton;
+    
+    @FXML
+    private RadioButton outsourcedButton;
+    
     private InventorySystem_KeaganHilliard app;
     private Part part;
+    private InHousePart inHouse;
+    private OutsourcedPart outsourced;
+    private Integer index;
     
     public AddOrEditPartScreenController() {
 
@@ -57,8 +78,30 @@ public class AddOrEditPartScreenController implements Initializable {
         this.app = app;
     }
     
-    public void setPart(Part part) {
+    public void setPart(Part part, Integer index) {
         this.part = part;
+        this.index = index;
+        if (index == null) mainLabel.setText("Add Part");
+        else {
+            mainLabel.setText("Modify Part");
+            partID.setText(String.valueOf(part.getPartID()));
+            name.setText(part.getName());
+            inv.setText(String.valueOf(part.getInStock()));
+            price.setText(String.valueOf(part.getPrice()));
+            min.setText(String.valueOf(part.getMin()));
+            max.setText(String.valueOf(part.getMax()));
+            if (part instanceof InHousePart) {
+                inHouse = (InHousePart) part;
+                machineID.setText(String.valueOf(inHouse.getMachineID()));
+                partType.selectToggle(inHouseButton);
+            }
+            else {
+                outsourced = (OutsourcedPart) part;
+                machineID.setText(outsourced.getCompanyName());
+                machineLabel.setText("Company Name");
+                partType.selectToggle(outsourcedButton);
+            }
+        }
     }
     
     /**
@@ -66,14 +109,22 @@ public class AddOrEditPartScreenController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        name.setText("");
-        // TODO
+        currentPartType = ((RadioButton)partType.getSelectedToggle()).getText();
         partType.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> ov, Toggle t, Toggle t1) -> {
-            RadioButton chk = (RadioButton)t1.getToggleGroup().getSelectedToggle(); // Cast object to radio button
-            System.out.println("Selected Radio Button - "+chk.getText());
-            if (chk.getText() == "Outsourced") return;
+            RadioButton theButton = (RadioButton)t1.getToggleGroup().getSelectedToggle();
+            currentPartType = theButton.getText();
+            if (currentPartType.equalsIgnoreCase("Outsourced")) {
+                System.out.println("Setting to company name");
+                machineLabel.setText("Company Name");
+                machineID.setPromptText("Company Name");
+            }
+            else if (currentPartType.equalsIgnoreCase("In-House")) {
+                machineLabel.setText("Machine ID");
+                machineID.setPromptText("Machine ID");
+            }
         });
     }
+    
 
     @FXML
     public void handleCancel() {
@@ -88,17 +139,32 @@ public class AddOrEditPartScreenController implements Initializable {
     @FXML
     public void handleSave() {
         try {
-            part.setName(name.getText());
-            part.setInStock(Integer.valueOf(inv.getText()));
-            part.setMax(Integer.valueOf(max.getText()));
-            part.setMin(Integer.valueOf(min.getText()));
-            part.setPrice(Double.valueOf(price.getText()));
-            part.setPartID(app.inv.getAllParts().size());
-            
-            app.saveAddOrEdit(part);
+            if (currentPartType.equalsIgnoreCase("Outsourced")) {
+                if (outsourced == null) outsourced = new OutsourcedPart();
+                outsourced.setName(name.getText());
+                outsourced.setInStock(Integer.valueOf(inv.getText()));
+                outsourced.setMax(Integer.valueOf(max.getText()));
+                outsourced.setMin(Integer.valueOf(min.getText()));
+                outsourced.setPrice(Double.valueOf(price.getText()));
+                if (partID.getText() != null && !partID.getText().equalsIgnoreCase("")) outsourced.setPartID(Integer.valueOf(partID.getText()));
+                outsourced.setCompanyName(machineID.getText());
+                app.saveAddOrEdit(outsourced, index);
+            }
+            else {
+                if (inHouse == null) inHouse = new InHousePart();
+                inHouse.setName(name.getText());
+                inHouse.setInStock(Integer.valueOf(inv.getText()));
+                inHouse.setMax(Integer.valueOf(max.getText()));
+                inHouse.setMin(Integer.valueOf(min.getText()));
+                inHouse.setPrice(Double.valueOf(price.getText()));
+                if (partID.getText() != null && !partID.getText().equalsIgnoreCase("")) inHouse.setPartID(Integer.valueOf(partID.getText()));
+                inHouse.setMachineID(Integer.valueOf(machineID.getText()));
+                app.saveAddOrEdit(inHouse, index);
+            }
         }
         catch (Exception e) {
-            System.out.println(e.getStackTrace().toString());
+            e.printStackTrace();
+            System.out.println(e.getStackTrace());
             System.out.println(e.getMessage());
         }
     }

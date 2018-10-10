@@ -45,7 +45,7 @@ public class InventorySystem_KeaganHilliard extends Application {
         this.stage.show();
     }
     
-    public void showAddOrEditPart() throws Exception {
+    public void showAddOrEditPart(Part part, Integer index) throws Exception {
         FXMLLoader loader = new FXMLLoader(
             getClass().getResource("View_Controller/AddOrEditPartScreen.fxml")
         );
@@ -53,7 +53,7 @@ public class InventorySystem_KeaganHilliard extends Application {
         AnchorPane addOrEdit = (AnchorPane) loader.load();
         AddOrEditPartScreenController controller = loader.getController();
         controller.setApp(this);
-        controller.setPart(new InHousePart());
+        controller.setPart(part, index);
         
         Scene addOrEditScene = new Scene(addOrEdit);
         stage.setScene(addOrEditScene);
@@ -63,9 +63,10 @@ public class InventorySystem_KeaganHilliard extends Application {
         stage.setScene(scene);
     }
     
-    public void saveAddOrEdit(Part part) throws Exception {
+    public void saveAddOrEdit(Part part, Integer index) throws Exception {
         System.out.println(part.getPrice());
-        inv.getAllParts().add(part);
+        if (index == null) inv.addPart(part);
+        else inv.updatePart(index, part);
         stage.setScene(scene);
     }
 
