@@ -8,7 +8,9 @@ package inventorysystem_keaganhilliard;
 import inventorysystem_keaganhilliard.Model.InHousePart;
 import inventorysystem_keaganhilliard.Model.Inventory;
 import inventorysystem_keaganhilliard.Model.Part;
+import inventorysystem_keaganhilliard.Model.Product;
 import inventorysystem_keaganhilliard.View_Controller.AddOrEditPartScreenController;
+import inventorysystem_keaganhilliard.View_Controller.AddOrEditProductScreenController;
 import inventorysystem_keaganhilliard.View_Controller.MainScreenController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -58,6 +60,21 @@ public class InventorySystem_KeaganHilliard extends Application {
         Scene addOrEditScene = new Scene(addOrEdit);
         stage.setScene(addOrEditScene);
     }
+
+    public void showAddOrEditProduct(Product product, Integer index) throws Exception {
+        FXMLLoader loader = new FXMLLoader(
+            getClass().getResource("View_Controller/AddOrEditProductScreen.fxml")
+        );
+        
+        AnchorPane addOrEdit = (AnchorPane) loader.load();
+        AddOrEditProductScreenController controller = loader.getController();
+        controller.setApp(this);
+        controller.setProduct(product, index);
+        controller.setAllParts(inv.getAllParts());
+        
+        Scene addOrEditScene = new Scene(addOrEdit);
+        stage.setScene(addOrEditScene);
+    }
     
     public void cancelAddOrEdit() throws Exception {
         stage.setScene(scene);
@@ -67,6 +84,11 @@ public class InventorySystem_KeaganHilliard extends Application {
         System.out.println(part.getPrice());
         if (index == null) inv.addPart(part);
         else inv.updatePart(index, part);
+        stage.setScene(scene);
+    }
+
+    public void saveAdd(Product product) throws Exception {
+        inv.addProduct(product);
         stage.setScene(scene);
     }
 

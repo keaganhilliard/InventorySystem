@@ -5,7 +5,15 @@
  */
 package inventorysystem_keaganhilliard.Model;
 
-import java.util.ArrayList;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.property.SimpleStringProperty;
+import inventorysystem_keaganhilliard.Model.Part;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -13,76 +21,115 @@ import java.util.ArrayList;
  */
 public class Product {
     
-    private ArrayList<Part> associatedParts;
-    private int productID;
-    private String name;
-    private Double price;
-    private int inStock;
-    private int min;
-    private int max;
+    private ObservableList<Part> associatedParts;
+    private IntegerProperty productID;
+    private StringProperty name;
+    private DoubleProperty price;
+    private IntegerProperty inStock;
+    private IntegerProperty min;
+    private IntegerProperty max;
+    
+    public Product() {
+        this.associatedParts = FXCollections.observableArrayList();
+        this.productID = new SimpleIntegerProperty(-1);
+        this.name = new SimpleStringProperty();
+        this.price = new SimpleDoubleProperty();
+        this.inStock = new SimpleIntegerProperty();
+        this.min = new SimpleIntegerProperty();
+        this.max = new SimpleIntegerProperty();
+    }
 
     public void setProductID(int productID) {
-        this.productID = productID;
+        this.productID.set(productID);
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
     }
 
     public void setPrice(Double price) {
-        this.price = price;
+        this.price.set(price);
     }
 
     public void setInStock(int inStock) {
-        this.inStock = inStock;
+        this.inStock.set(inStock);
     }
 
     public void setMin(int min) {
-        this.min = min;
+        this.min.set(min);
     }
 
     public void setMax(int max) {
-        this.max = max;
+        this.max.set(max);
     }
 
     public int getProductID() {
+        return productID.getValue();
+    }
+    
+    public IntegerProperty productIDProperty() {
         return productID;
     }
-
-    public String getName() {
+    
+    public StringProperty nameProperty() {
         return name;
     }
-
-    public Double getPrice() {
+    
+    public DoubleProperty priceProperty() {
         return price;
     }
-
-    public int getInStock() {
+    
+    public IntegerProperty inStockProperty() {
         return inStock;
     }
-
-    public int getMin() {
+    
+    public IntegerProperty minProperty() {
         return min;
     }
-
-    public int getMax() {
+    
+    public IntegerProperty maxProperty() {
         return max;
     }
 
-    public ArrayList<Part> getAssociatedParts() {
+    public String getName() {
+        return name.getValue();
+    }
+
+    public Double getPrice() {
+        return price.getValue();
+    }
+
+    public int getInStock() {
+        return inStock.getValue();
+    }
+
+    public int getMin() {
+        return min.getValue();
+    }
+
+    public int getMax() {
+        return max.getValue();
+    }
+
+    public void resetAssociatedParts() {
+        associatedParts = FXCollections.observableArrayList();
+    }
+
+    public ObservableList<Part> getAssociatedParts() {
         return associatedParts;
     }
     
     public void addAssociatedPart(Part thePart) {
-        associatedParts.add(thePart);
+        if (associatedParts.indexOf(thePart) < 0) associatedParts.add(thePart);
     }
     
     public void removeAssociatedPart(int index) {
-        associatedParts.remove(index);
+        Part thePart = lookupAssociatedPart(index);
+        associatedParts.remove(thePart);
     }
     
-    public Part lookupAssociatedPart(int thePartId) {
-        return associatedParts.get(thePartId);
+    public Part lookupAssociatedPart(int index) {
+        return associatedParts.get(index);
     }
     
 }

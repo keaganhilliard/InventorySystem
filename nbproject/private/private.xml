@@ -3,9 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/keagan/NetBeansProjects/InventorySystem_KeaganHilliard/src/inventorysystem_keaganhilliard/FXMLDocumentController.java</file>
-            <file>file:/home/keagan/NetBeansProjects/InventorySystem_KeaganHilliard/src/inventorysystem_keaganhilliard/FXMLDocument.fxml</file>
-            <file>file:/home/keagan/NetBeansProjects/InventorySystem_KeaganHilliard/src/inventorysystem_keaganhilliard/InventorySystem_KeaganHilliard.java</file>
+            <file>file:/Users/keaganhilliard/Projects/InventorySystem/src/inventorysystem_keaganhilliard/InventorySystem_KeaganHilliard.java</file>
+            <file>file:/Users/keaganhilliard/Projects/InventorySystem/src/inventorysystem_keaganhilliard/View_Controller/MainScreenController.java</file>
+            <file>file:/Users/keaganhilliard/Projects/InventorySystem/src/inventorysystem_keaganhilliard/Model/Inventory.java</file>
         </group>
     </open-files>
 </project-private>

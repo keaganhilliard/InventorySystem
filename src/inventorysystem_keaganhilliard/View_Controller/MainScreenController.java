@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package inventorysystem_keaganhilliard.View_Controller;
 
 import java.net.URL;
@@ -16,7 +11,6 @@ import inventorysystem_keaganhilliard.Model.InHousePart;
 import inventorysystem_keaganhilliard.Model.Part;
 import inventorysystem_keaganhilliard.Model.Product;
 import java.text.NumberFormat;
-import java.util.function.Predicate;
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
@@ -50,17 +44,30 @@ public class MainScreenController implements Initializable {
     private TableView<Product> productsTable;
     
     @FXML
+    private TableColumn<Product, String> productNameColumn;
+    
+    @FXML
+    private TableColumn<Product, Integer> productIDColumn;
+    
+    @FXML
+    private TableColumn<Product, Integer> productInvColumn;
+    
+    @FXML
+    private TableColumn<Product, Double> productPriceColumn;
+    
+    @FXML
     private TextField partSearch;
     
     @FXML
     private TextField productSearch;
-    /**
-     * Initializes the controller class.
-     */
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println(url);
+        setupPartsTable();
+        setupProductsTable();
+    }
+    
+    private void setupPartsTable() {
         partNameColumn.setCellValueFactory(part -> part.getValue().nameProperty());
         partIDColumn.setCellValueFactory(part -> part.getValue().partIDProperty().asObject());
         partInvColumn.setCellValueFactory(part -> part.getValue().inStockProperty().asObject());
@@ -80,23 +87,47 @@ public class MainScreenController implements Initializable {
         });
     }
     
+    private void setupProductsTable() {
+        productNameColumn.setCellValueFactory(prod -> prod.getValue().nameProperty());
+        productIDColumn.setCellValueFactory(product -> product.getValue().productIDProperty().asObject());
+        productInvColumn.setCellValueFactory(product -> product.getValue().inStockProperty().asObject());
+        productPriceColumn.setCellValueFactory(product -> product.getValue().priceProperty().asObject());
+        NumberFormat currencyF = NumberFormat.getCurrencyInstance();
+        productPriceColumn.setCellFactory(tableCell -> new TableCell<Product, Double>() {
+            @Override
+            protected void updateItem(Double price, boolean empty) {
+                super.updateItem(price, empty);
+                if (empty) {
+                    setText(null);
+                } 
+                else {
+                    setText(currencyF.format(price));
+                }
+            }
+        });
+    }
+    
     public void setInventoryApp(InventorySystem_KeaganHilliard app) {
         this.app = app;
-        filteredParts = new FilteredList<>(app.inv.getAllParts(), p -> true);
-        
-        this.partsTable.setItems(filteredParts);
+        this.partsTable.setItems(app.inv.getAllParts());
+        this.productsTable.setItems(app.inv.getProducts());
     }
     
     @FXML
     private void handlePartSearch() {
         String searchVal = partSearch.getText();
-        filteredParts.setPredicate((Part part) -> {
-            if (searchVal == null || searchVal.isEmpty()) return true;
-
-            String lowerCaseSearch = searchVal.toLowerCase();
-
-            return part.getName().toLowerCase().contains(lowerCaseSearch);
-        });
+        app.inv.filterParts(searchVal);
+    }
+    
+    @FXML
+    private void handleProductSearch() {
+        String searchVal = productSearch.getText();
+        app.inv.filterProducts(searchVal);
+    }
+    
+    @FXML
+    private void handleExitClick() {
+        System.exit(0);
     }
     
     @FXML
@@ -129,9 +160,43 @@ public class MainScreenController implements Initializable {
         try {
             Part selectedPart = partsTable.getSelectionModel().getSelectedItem();
             Integer selectedIndex = partsTable.getSelectionModel().getSelectedIndex();
-            if (selectedIndex != null) {
-                app.inv.removePart(selectedPart.getPartID());
-            }
+            app.inv.removePart(selectedIndex);
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @FXML
+    private void handleModifyProduct() {
+        try {
+            Product selectedProduct = productsTable.getSelectionModel().getSelectedItem();
+            Integer selectedIndex = productsTable.getSelectionModel().getSelectedIndex();
+            if (selectedProduct != null) {
+                app.showAddOrEditProduct(selectedProduct, selectedIndex);
+            }    
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @FXML
+    private void handleAddProduct() {
+        try {
+            Product product = new Product();
+            app.showAddOrEditProduct(product, null);
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @FXML
+    private void handleDeleteProduct() {
+        try {
+            Integer selectedIndex = productsTable.getSelectionModel().getSelectedIndex();
+            app.inv.removeProduct(selectedIndex);
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
